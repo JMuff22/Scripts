@@ -22,4 +22,7 @@ brew install --cask sublime-text
 ln -s "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl" ~/bin/subl
 wget "https://code.visualstudio.com/sha/download?build=stable&os=darwin-universal" #visual studio code
 wget "https://central.github.com/deployments/desktop/desktop/latest/darwin" #github desktop
+brew install autojump
+brew install zsh-syntax-highlighting
 brew upgrade
+source ~/.zshrc
