@@ -12,5 +12,16 @@ else
     fi
 fi
 unset __conda_setup
-# <<< conda initialize <<<
+plugins=(
+  git
+  bundler
+  dotenv
+  osx
+  rake
+  rbenv
+  ruby
+  autojump
+  zsh-syntax-highlighting
+  zsh-autosuggestions
+)# <<< conda initialize <<<
 
