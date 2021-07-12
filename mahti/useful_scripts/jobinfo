@@ -1,0 +1,3 @@
+JOBID=
+
+scontrol show job $JOBID

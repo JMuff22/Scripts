@@ -1,0 +1,110 @@
+#-! DESCRIPTION: An arch file for intel compiler in CSC's supercluster, Mahti.
+#-! MAINTAINER: Kristoffer Simula <krsimula@mahti-login2.mahti.csc.fi>
+#-! DATE: 07.2020
+#-! ARCH: x86_64
+#-! HOSTNAME: *mahti.csc.fi
+#-! CORES_PER_NODE_CLUSTER: 128
+#-! TIME_FORMAT: H:MM:SS
+#-! USER.DESCRIPTION.QUEUE: Name of queue under which to run the job
+#-! USER.ALLOWED.QUEUE: medium test large
+#-! *MAX_NCORE:
+#-!  case "&USER.QUEUE&" in
+#-!  medium)
+#-!   echo "2560" ;;
+#-!  test)
+#-!   echo "256" ;;
+#-!  large)
+#-!   echo "25600" ;;
+#-!  esac
+#-! *MAX_WALLTIME:
+#-!  case "&USER.QUEUE&" in
+#-!  medium)
+#-!   echo "36:00:00" ;;
+#-!  test)
+#-!   echo "1:00:00" ;;
+#-!  large)
+#-!   echo "36:00:00" ;;
+#-!  esac
+#-! RUN_PARALLEL: srun -n &NPROC& &BINARY&
+#-! SCRIPT_HEAD:
+#-!  #!/bin/bash
+#-!  #SBATCH --account=project_2002888
+#-!  #SBATCH -J &SCRIPT&
+#-!  #SBATCH -o &OUT&
+#-!  #SBATCH --nodes=&NNODE_TOTAL&
+#-!  #SBATCH --ntasks=&NPROC_TOTAL&
+#-!  #SBATCH --time=&WALLTIME&
+#-!  #SBATCH --partition=&USER.QUEUE&
+#-!  
+#-! SCRIPT_RUN:
+#-!  srun -n &NPROC& &BINARY& 
+#-! SUBMIT_SCRIPT: sbatch &SCRIPT&
+
+# Includes
+include $(INCBASE)/os/gnu-linux.arch
+include $(INCBASE)/f90/intel.arch
+include $(INCBASE)/cc/intel.arch
+include $(INCBASE)/queue/slurm.arch
+
+# Type definition
+TYPE = cluster
+
+# Compiler names
+F90 = mpif90
+CC = mpicc
+
+# Environment
+ENVIRONMENT_COMMAND = module unload openblas; module unload openmpi; module unload gcc; module load intel; module load openmpi
+
+# MPI library
+MPI_VERSION = 1
+
+# Automatic C flags
+NEED_ETIME = no
+
+# SHM support
+SUPPORT_SHM = yes
+CFLAGS_SHM = -DSHM_SYSV
+
+# Compiler flags
+FFLAGS_opt = -O3 -fp-model fast=2 -no-prec-div -fimf-use-svml=true
+
+# Features
+FFLAGS_OPENMP_yes = -qopenmp
+CFLAGS_OPENMP_yes = -qopenmp
+
+# Integration info (can be safely deleted)
+### KERNEL: Linux
+### OS: GNU/Linux
+### ARCH: x86_64
+### DISTRIBUTION: Red Hat Enterprise Linux Server release 7.8 (Maipo)
+### HOSTNAME: mahti-login2.mahti.csc.fi
+### BASH_VERSION: 4.2.46(2)-release
+### ARCH: first block of /proc/cpuinfo:
+###### processor	: 0
+###### vendor_id	: AuthenticAMD
+###### cpu family	: 23
+###### model		: 49
+###### model name	: AMD EPYC 7402 24-Core Processor
+###### stepping	: 0
+###### microcode	: 0x8301025
+###### cpu MHz		: 2800.000
+###### cache size	: 512 KB
+###### physical id	: 0
+###### siblings	: 24
+###### core id		: 0
+###### cpu cores	: 24
+###### apicid		: 0
+###### initial apicid	: 0
+###### fpu		: yes
+###### fpu_exception	: yes
+###### cpuid level	: 16
+###### wp		: yes
+###### flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc art rep_good nopl nonstop_tsc extd_apicid aperfmperf eagerfpu pni pclmulqdq monitor ssse3 fma cx16 sse4_1 sse4_2 movbe popcnt aes xsave avx f16c rdrand lahf_lm cmp_legacy svm extapic cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw ibs skinit wdt tce topoext perfctr_core perfctr_nb bpext perfctr_l2 cpb cat_l3 cdp_l3 hw_pstate sme retpoline_amd ssbd ibrs ibpb stibp vmmcall fsgsbase bmi1 avx2 smep bmi2 cqm rdt_a rdseed adx smap clflushopt clwb sha_ni xsaveopt xsavec xgetbv1 cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local clzero irperf xsaveerptr arat npt lbrv svm_lock nrip_save tsc_scale vmcb_clean flushbyasid decodeassists pausefilter pfthreshold avic v_vmsave_vmload vgif umip overflow_recov succor smca
+###### bogomips	: 5599.94
+###### TLB size	: 3072 4K pages
+###### clflush size	: 64
+###### cache_alignment	: 64
+###### address sizes	: 43 bits physical, 48 bits virtual
+###### power management: ts ttp tm hwpstate cpb eff_freq_ro [13] [14]
+###### 

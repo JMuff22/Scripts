@@ -1,0 +1,14 @@
+#!/bin/bash
+
+## https://slurm.schedmd.com/faq.html
+## How could I automatically print a job's Slurm job ID to its standard output?
+## https://hpcc.umd.edu/hpcc/help/slurmenv.html
+if [ X"$SLURM_STEP_ID" = "X" -a X"$SLURM_PROCID" = "X"0 ]
+then
+  echo "=========================================="
+  echo "SLURM_JOB_ID = $SLURM_JOB_ID"
+  echo "SLURM_JOB_NODELIST = $SLURM_JOB_NODELIST"
+  echo "SLURM_SUBMIT_DIR = $SLURM_SUBMIT_DIR"
+  echo "SLURM_JOB_NAME = $SLURM_JOB_NAME"
+  echo "=========================================="
+fi

@@ -1,0 +1,6 @@
+https://support.ceci-hpc.be/doc/_contents/SubmittingJobs/SlurmFAQ.html#Q07
+https://slurm.schedmd.com/sinfo.html
+
+
+sinfo -o "%15N %10c %10m  %25f %10G"
+
