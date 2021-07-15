@@ -6,7 +6,6 @@
 ##SBATCH --ntasks=128
 #SBATCH --time=4:00:00
 #SBATCH --ntasks-per-node=128
-##SBATCH --cpus-per-task=128
 
 echo "optimising cutoffs for Si atom"
 echo $PWD
@@ -23,65 +22,64 @@ then
   echo "SLURM_JOB_NAME = $SLURM_JOB_NAME"
   echo "=========================================="
 fi
-
+echo "Loading Modules..."
 module load gcc
 module load openmpi
 module load fftw
 module load netlib-scalapack
 module load openblas
 
-## LAT VEC OPT
-cd /scratch/project_2002888/jakemuff/Si/atom/cutoff_opt
-for cutoff in $(seq 600 100 1000) ; do
+cd cutoff_opt
+for cutoff in $(seq 100 100 1000) ; do
   mkdir cutoff_$cutoff
   cd cutoff_$cutoff
-  cp /scratch/project_2002888/jakemuff/Si/bulk/kpoints_222/pw2casino.dat .
-  cp /scratch/project_2002888/jakemuff/Si/bulk/kpoints_222/Si.He.ccECP.upf .
-  cp /scratch/project_2002888/jakemuff/Si/bulk/kpoints_222/in.pp .
-  cp /scratch/project_2002888/jakemuff/Si/bulk/kpoints_222/si_pp.data .
+  cp -v ../../inputs/pw2casino.dat .
+  cp -v ../../inputs/si.upf .
+  cp -v ../../inputs/in.pp .
+  # cp -v ../../inputs/si_pp.data .
 
   cat > in.pwscf << EOF
 &CONTROL
-   prefix='silicon'
-   restart_mode='from_scratch'
+   prefix="si"
+   restart_mode="from_scratch"
    calculation='scf'
-   pseudo_dir='./'
-   wf_collect = .true.
-   outdir='./'
+   tstress=.true.
+   tprnfor=.true.
+   pseudo_dir="./"
+   outdir="./"
  /
  &system
-   ibrav=0
    input_dft='PBE'
-   celldm(1) = 10.261212
-   nat= 1, ntyp= 1,
+   ibrav=0
+   celldm(1) = 10.2625,
+   nat= 2, ntyp= 1,
    ecutwfc = $cutoff,
+   !ecutrho=720
    nosym=.true.
    noinv=.true.
-   occupations      = 'smearing'
-   smearing         = 'gaussian'
-   degauss          = 0.022
- /
+/
  &electrons
    diagonalization='cg'
-   conv_thr = 1.0d-13
+   conv_thr = 1.0d-8
    mixing_mode='plain'
    mixing_beta=0.7
- /
+/
 CELL_PARAMETERS alat
-5 0 0
-0 5 0
-0 0 5
+0.5 0.5 0.0
+0.0 0.5 0.5
+0.5 0.0 0.5
 ATOMIC_SPECIES
-Si 28.086 Si.He.ccECP.upf
+Si 28.0855 si.upf
 ATOMIC_POSITIONS crystal
-Si 0.50 0.50 0.50
-K_POINTS Gamma
+Si 0.00 0.00 0.00
+Si 0.25 0.25 0.25
+K_POINTS gamma
 EOF
 cd ..
 done
 
 
-for i in 600 700 800 900 1000
+for i in $(seq 100 100 1000)
 do
     cd cutoff_$i
     srun /projappl/project_2002888/espresso/bin/pw.x -pw2casino -n 128 < in.pwscf  > out.pwscf
@@ -90,4 +88,3 @@ do
     grep '! *total energy' out.pwscf | tail -n 1 | awk -v cutoff_var="$i" '{print cutoff_var" "$5}' >> ../energies.txt
     cd ..
 done
-
