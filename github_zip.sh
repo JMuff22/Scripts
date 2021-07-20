@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-user=walid-mk
-repo=VQE
+user=
+repo=
 branch=main
 wget -O "https://github.com/$user/$repo/archive/refs/heads/$branch.zip"
 
