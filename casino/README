@@ -1,0 +1,10 @@
+Automating jastrow optimising 
+
+Copy the relevant files with cpscript.sh 
+Run QMC for U terms with casino_uterm.sh
+Run envmc for each U term directory and copy+paste into energies.dat 
+Find U term with best + most stable variances 
+Copy U term parameters from best correlation.out.x in best dir to cp_uterm.sh
+Run cp_uterm.sh
+
+Repeat for chi term
