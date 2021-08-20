@@ -52,7 +52,7 @@ def get_args():
     
     args_parser.add_argument(
         '--plot',
-        help='Plot PCF(s)?',
+        help='BOOL. Produce plot of the PCFs. 0 (default) FALSE. 1 TRUE. ',
         required=False,
         type=int,
         default=0
@@ -60,7 +60,7 @@ def get_args():
     
     args_parser.add_argument(
         '--num-e',
-        help='Number of electrons',
+        help='Total Number of electrons',
         required=False,
         type=int,
         default=3
