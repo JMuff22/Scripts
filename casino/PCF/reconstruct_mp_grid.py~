@@ -1,0 +1,64 @@
+import numpy as np
+import sys
+import argparse
+
+def get_args():
+
+  args_parser = argparse.ArgumentParser()
+
+  args_parser.add_argument(
+    '--fsymmat',
+    help='File containing sytmmetry matrices..',
+    type=str,
+    default='SYMMAT.txt'
+  )
+
+  args_parser.add_argument(
+    '--fktot',
+    help='File containing the total BZ.',
+    type=str,
+    default='fktot.txt'
+  )
+
+  args_parser.add_argument(
+    '--fred',
+    help='File containing the reduced BZ.',
+    type=str,
+    default='fred.txt'
+  )
+
+  return args_parser.parse_args()
+
+def parse_symmat(file):
+    symmat=[]
+    with open(file) as f:
+        lines=f.readlines()
+        for i in range(len(lines)):
+            if(lines[i][1:12]=="cart.    s("):
+                mat=np.zeros((3,3))
+                for j in range(3):
+                    words=lines[i+j].split()
+                    print(words)
+                    for k in range(3):
+                        if(j==0):
+                            if(len(symmat)<9):
+                                mat[j,k]=float(words[5+k])
+                            else:
+                                mat[j,k]=float(words[4+k])
+                        else:
+                            mat[j,k]=float(words[1+k])
+                symmat.append(mat)
+
+    return symmat
+
+def parse_
+
+def main():
+
+    args=get_args()
+
+    symmat=parse_symmat(args.fsymmat)
+    print(symmat)
+
+if __name__=='__main__':
+    main()
