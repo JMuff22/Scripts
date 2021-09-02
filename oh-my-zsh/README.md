@@ -46,21 +46,18 @@ ln -s <LOCAL_REPOSITORY_FOLDER>/linux-scripts/zsh/.p10k.zsh ${HOME}/.p10k.zsh
 
 ```
 chpwd recent filehandler:29: no such file or directory: $HOME/.local/zsh/chpwd-recent-dirs
-
 ```
 
 Fix --> Simply make directory in `$Home/.local/zsh` and zsh populates this. 
 
 ```
 $HOME/.bashrc.casino:4: command not found: shopt
-
 ```
 ZSH doesn't like `shopt`. Solution from https://github.com/larz258/Zshopt. 
 
 Download to your choice of `/bin/`
 ```
 wget https://raw.githubusercontent.com/larz258/Zshopt/master/shopt
-
 ```
 
 Remember to `chmod +x shopt`.
@@ -69,7 +66,6 @@ Add alias in `.zshrc`
 
 ```
 alias shopt='/home/jakemuff/.local/bin/shopt'
-
 ```
 
 Thanks Mika! Credit for this: https://github.com/AgenttiX/linux-scripts/tree/master/zsh
