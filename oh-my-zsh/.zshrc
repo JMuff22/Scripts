@@ -1,21 +1,28 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
-source ~/.bash_profile
-
-#  TO USE CONDA DO 
-#  conda init zsh
-#  From conda env
-
-
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/jake/.oh-my-zsh"
+export ZSH="/home/jakemuff/.oh-my-zsh"
+export PATH=/home/jakemuff/qmcpack-3.11.0/build/bin:$PATH
+export PATH=/home/jakemuff/.local/bin:$PATH
+[ -e "/home/jakemuff/.bashrc.casino" ] && source "/home/jakemuff/.bashrc.casino"
+
+# https://github.com/larz258/Zshopt
+# due to error /home/jakemuff/.bashrc.casino:4: command not found: shopt
+alias shopt='/home/jakemuff/.local/bin/shopt'
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="gentoo"
+ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -54,7 +61,7 @@ ZSH_THEME="gentoo"
 # Uncomment the following line to display red dots whilst waiting for completion.
 # Caution: this setting can cause issues with multiline prompts (zsh 5.7.1 and newer seem to work)
 # See https://github.com/ohmyzsh/ohmyzsh/issues/5765
-# COMPLETION_WAITING_DOTS="true"
+COMPLETION_WAITING_DOTS="true"
 
 # Uncomment the following line if you want to disable marking untracked files
 # under VCS as dirty. This makes repository status check for large repositories
@@ -72,23 +79,31 @@ ZSH_THEME="gentoo"
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
+# Custom plugin configuration
+ZSH_AUTOSUGGEST_USE_ASYNC="true"
+
+zstyle ':autocomplete:*' min-delay 5.0  # float
+# Wait this many seconds for typing to stop, before showing completions.
+zstyle ':autocomplete:*' min-input 5  # int
+# Wait until this many characters have been typed, before showing completions.
+
+
 # Which plugins would you like to load?
 # Standard plugins can be found in $ZSH/plugins/
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-    git
-    cp
-    ruby
-    pylint
-    python
-    ubuntu
-    vscode
-    virtualenv
+    # Oh my Zsh plugins
+    adb celery cp django docker git npm nvm pip pylint rsync sudo ubuntu ufw virtualenv
+    # Custom plugins
+    zsh-autocomplete
+    zsh-autosuggestions
+    zsh-syntax-highlighting
 )
 
 source $ZSH/oh-my-zsh.sh
+# source ~/.oh-my-zsh/plugins/zsh-autocomplete/zsh-autocomplete.plugin.zsh
 
 # User configuration
 
@@ -116,18 +131,25 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+# Anaconda can be configured for zsh by running
+# "conda init zsh" in a shell that has conda enabled (such as bash)
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/Users/jake/opt/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+__conda_setup="$('/opt/conda/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
-    if [ -f "/Users/jake/opt/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/Users/jake/opt/anaconda3/etc/profile.d/conda.sh"
+    if [ -f "/opt/conda/etc/profile.d/conda.sh" ]; then
+        . "/opt/conda/etc/profile.d/conda.sh"
     else
-        export PATH="/Users/jake/opt/anaconda3/bin:$PATH"
+        export PATH="/opt/conda/bin:$PATH"
     fi
 fi
 unset __conda_setup
 # <<< conda initialize <<<
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+# If you have an issue with chpwd-recent-dirs 
+# mkdir at the error point e.g $HOME/.local/zsh 
 
