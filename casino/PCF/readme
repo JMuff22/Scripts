@@ -1,0 +1,42 @@
+
+python /home/jakemuff/casino_positrons/positron_utils/pcf_fit/plyfit.py --vmcfile gvmc_1.npy --dmcfile gdmc_1.npy --rfile r_1.npy --lat-vec 1 --fit-range x --volume 2.1608567484189534E+03 --max-pol 9 --min-pol 5 --plot 0 --num-e 192 --metal 0 --verbosity 0 --corepart 1 
+
+Fit range 4.4
+
+
+========================================
+Polynomial degree: 5
+Mean error: 0.01574, Mean squared error: 0.01574
+----------------------------------------
+PCF        : 0.8879
+STD        : 0.0056
+----------------------------------------
+Lifetime   : 252.1639
+STD        : 1.5892
+ 
+========================================
+Polynomial degree: 7
+Mean error: 0.00759, Mean squared error: 0.00759
+----------------------------------------
+PCF        : 0.9223
+STD        : 0.0072
+----------------------------------------
+Lifetime   : 242.8561
+STD        : 1.8983
+ 
+========================================
+Polynomial degree: 9
+Mean error: 0.00691, Mean squared error: 0.00691
+--> BEST
+----------------------------------------
+PCF        : 0.9154
+STD        : 0.0090
+----------------------------------------
+Lifetime   : 244.8441
+STD        : 2.4192
+ 
+All done.
+
+
+
+

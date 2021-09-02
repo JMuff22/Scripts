@@ -12,6 +12,7 @@ fi
 export ZSH="/home/jakemuff/.oh-my-zsh"
 export PATH=/home/jakemuff/qmcpack-3.11.0/build/bin:$PATH
 export PATH=/home/jakemuff/.local/bin:$PATH
+export GPG_TTY=$(tty)
 [ -e "/home/jakemuff/.bashrc.casino" ] && source "/home/jakemuff/.bashrc.casino"
 
 # https://github.com/larz258/Zshopt
