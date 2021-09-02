@@ -1,4 +1,6 @@
 #.DS_STORE 
 .DS_STORE
 .ds_store
+.DS*
 __pycache__/
+.DS_Store
