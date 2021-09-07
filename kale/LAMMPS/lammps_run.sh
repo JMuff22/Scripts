@@ -4,6 +4,7 @@
 #SBATCH -p medium
 #SBATCH --nodes=1
 #SBATCH -t 10:00:00
+#SBATCH --mem=2G
 #SBATCH --ntasks-per-node=64
 
 export BIN_DIR=/proj/jakemuff/lammps/build/bin/bin
@@ -15,5 +16,6 @@ module load openmpi
 INPUT=$1
 # OUTPUT=$2
 
-mpirun -np ${SLURM_NTASKS} $BIN_DIR/lmp -in ${INPUT}
+# mpirun -np ${SLURM_NTASKS} $BIN_DIR/lmp -in ${INPUT}
+srun --mpi=pmix $BIN_DIR/lmp -in ${INPUT}
 
