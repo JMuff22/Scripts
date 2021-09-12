@@ -1,0 +1,38 @@
+# Ar with LJ potential
+# At 300k using NVT thermostat
+
+units		real
+atom_style	atomic
+
+#read_restart restart.new
+#read_data       ar108
+read_data       data.Ar
+
+pair_style  lj/cut 7.5
+
+pair_coeff 1 1  0.2385 3.4 7.5
+ 
+mass		1 39.948 
+
+
+velocity all create 300 4928459 rot yes dist gaussian
+
+fix 1 all nvt temp 273.15 23.15 100.0 
+
+timestep    	5.0
+
+neighbor	2.0 bin
+neigh_modify	every 20 delay 0 check no
+
+dump		2 all atom 1000 dump.cool
+dump		3 all custom 1000 dump.xyz type x y z type id vx vy vz
+dump_modify	2 sort id
+dump_modify	3 sort id
+
+thermo_style	custom time dt temp vol press etotal pe ke ndanger 
+
+thermo		100
+run		100000
+
+write_restart   restart.new
+write_data data_out.Ar nocoeff 
