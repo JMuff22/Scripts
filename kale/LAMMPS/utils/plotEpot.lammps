@@ -1,0 +1,12 @@
+cat log.lammps | gawk 'BEGIN { t=0.0; }
+
+{
+
+        if (($9=="0")&&($3>0)) {t=$1; Epot=$7; print t, Epot;}
+
+}' > Epot.tmp
+
+
+/wrk/users/opakarin/MD2021public/plot.py Epot.tmp "Time [ps]" "Potential energy [kcal/mol]"
+
+rm -f Epot.tmp

@@ -1,0 +1,11 @@
+cat log.lammps | gawk 'BEGIN { t=0.0; }
+
+{
+
+        if (($9=="0")&&($3>0)) {t=$1/1000.0; Temp=$3; print t, Temp;}
+
+}' > temp.tmp
+
+/wrk/users/opakarin/MD2021public/plot.py temp.tmp "Time [ps]" "Temperature [K]"
+
+rm -f temp.tmp
